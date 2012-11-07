@@ -1,0 +1,21 @@
+Exercice 10
+
+Premiere étape
+
+
+2. Si on lance qu'une seule application, elle se déroule jusqu'à l'attente d'un message.
+
+3. Si une application fait un envoie sans que l'autre soit en reception, le message est stocké dans le buffer de la boite réseau de l'application qui est sensé recevoir, puis quand cette application sera en réception, elle ira lire le message directement dans sa boite réseau.
+
+Deuxieme étape
+
+1. et 2. Il y a perte de paquet si le buffer de l'application qui est sensé recevoir le message est pleine. Mon application apprifix peut recevoir 255 messages.
+
+3. Si les deux applications sont en mode reception, elles sont interbloqué.
+
+4. La seule solution pour sortir de cette situation c'est qu'une autre application envoie un message.
+
+
+Troisieme étape
+
+On récupere les informations de l'application qui envoie un message à la reception de ce message.

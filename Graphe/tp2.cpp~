@@ -1,0 +1,20 @@
+#include <cstdlib>
+#include <iostream>
+#include <vector>
+#icnlude <fstream>
+
+using namespace std;
+
+int main()
+{
+  int n; //nb de points
+  cout << "Entrer le nombre de points: ";
+  cin >> n;
+
+  int m = n*(n-1)/2; //nombre de paires de points
+  int point[n][2]; //coordonnees des points dans le plan
+  int edge[m][2]; //paires de points et le carre de leur longueur
+  int arbre[n-1][2]; //aretes de l'arbre de Kruskal
+
+  return 0;
+}

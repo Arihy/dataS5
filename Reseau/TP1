@@ -1,0 +1,33 @@
+-----------TP1&2------------
+1.1.2 Premieres questions
+
+
+1/ ssh charive ps -ef
+cette commande permet de lancer la commande "ps -ef" sur le machine charive.
+
+
+2/ ssh -l rémi charive
+cette commande permet de se connecter en tant que rémi sur la machine charive.
+
+3/ ssh -l rémi pluslois.tatouine.lesbains
+cette commande permet de se connecer a la machine qui porte le nom plusloin.tatouine.lesbains avec le login rémi, comme on est sur un réseau local, on n'a pas besoin du nom complet d'une machine pour se connecter dessus. Si plusloins.tatouine.lesbains se trouve dans un réseau distant, on pourra se connecter a condition que le login rémi existe sur la machine plusloins.tatouine.lesbains et qu'on est le mot de passe correspondant.
+
+4/ "ssh charive" sur chuila puis "ssh chuila" sur la mm fenetre
+Permet de se connecter sur la machine charive puis sur la machine chuila.
+Une clef est créée pour la connexion sur la machine chuila (qui est ma machine) parce que c'est la premiere fois que je me connecte sur ma machine depuis la machine charive.
+
+
+1.1.5 Questions
+
+On copiant la clef public de rémi dans authorize_keys de fasol, rémi peut acceder au compte de fasol sans demande de mot de passe, il a donc les même droit que fasol sur son compte.
+
+Protections:
+-Ne pas publier sa clef...
+
+Exercice 1
+
+...
+
+
+2 Copie de fichiers
+
