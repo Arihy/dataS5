@@ -1,3 +1,4 @@
+//serveur
 #include <iostream> 
 #include <stdlib.h>
 #include <sys/socket.h>
@@ -24,12 +25,12 @@ int main(int argc, char** argv, char** env)
 	int res = listen(desc, 5); //liste d'attente de taille 5, si plus de client, rejeté
 	struct sockaddr_in brCv;
 	socklen_t lg = sizeof(sockaddr_in);
-	int descBrCv = accept(brServeur, (struct sockaddr*)&brCv, &lg);
+	int descBrCv = accept(desc, (struct sockaddr*)&brCv, &lg);
 
 	char buffer[256];
 	int s = recv(descBrCv, buffer, 256, 0);
-	char msg = "Tiens, bonjour...";
-	int s2 = send(descBrCv, msg, strlen(msg), 0);
+	char msg[] = "Tiens, bonjour...";
+	int s2 = send(desc, msg, strlen(msg), 0);
 
 	return 0;
 }

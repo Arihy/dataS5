@@ -1,3 +1,4 @@
+//client
 #include <iostream>
 #include <stdlib.h>
 #include <sys/socket.h>
@@ -5,10 +6,10 @@
 #include "sock.h"
 #include "sockdist.h"
 #include <arpa/inet.h>
+#include <string.h>
 
 
-
-unsing namespace std;
+using namespace std;
 
 int main(int argc, char** argv, char** env)
 {
@@ -22,8 +23,8 @@ int main(int argc, char** argv, char** env)
 		return 1;
 	}
 
-	SockDist brPublic(argv[1], atoi(argv[2]);
-	struct sockaddr_in* adrBrPub = brPub.getAdrDist();
+	SockDist brPublic(argv[1], atoi(argv[2]));
+	struct sockaddr_in* adrBrPub = brPublic.getAdrDist();
 	int lg = sizeof(struct sockaddr_in);
 
 	int resCo = connect(descBrCli, (struct sockaddr*)adrBrPub, lg);
