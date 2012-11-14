@@ -42,7 +42,6 @@ int main(){
 
 
 
-
   return 0;
 }
 
@@ -150,7 +149,7 @@ int nbOccurence(int n, int niveau[], int x)
   int nb = 0;
   for(int i = 0; i < n; i++)
   {
-    if(niveau[i] = x)
+    if(niveau[i] == x)
       nb++;
   }
   return nb;
@@ -160,31 +159,58 @@ void ecritureniveaux(int n, int niveau[])
 {
   int nb = 0;
   int nbNiveaux[n];
-  int tailleNiveaux[n];
   for(int i = 0; i < n; i++)
   {
-    nbNiveaux[i] = i;
-    tailleNiveaux[i] = i;
+    nbNiveaux[i] = 0;
   }
 
   for(int i = 0; i < n; i++)
   {
     nbNiveaux[i] = nbOccurence(n, niveau, i);
   }
-
   for(int i = 0; i < n; i++)
   {
-    tailleNiveaux[i] = nbOccurence(n, nbNiveaux, i);
+    if(nbNiveaux[i] != 0)
+       cout << "il y a " << nbNiveaux[i] << " sommet(s) au niveau " << i << endl;
+  }
+}
+
+
+void parcoursprofondeur(int n, vector<int> voisins[], int niveau[], int ordre[], int pere[])
+{
+  int dv[n];
+  int t = 2;
+  vector<int> AT;
+  int debut = 0;
+  int fin = n-1;
+  int v = 0;
+  for(int i = 0; i < n; i++)
+  {
+    dv[i] = 0;
   }
 
-  nb = 0;
-  cout << "il y a " << tailleNiveaux[0] << " sommets au niveau 0" << endl;
-  for(int i = 1; i < n; i++)
+  dv[0] = 1;
+  ordre[0] = 1;
+  pere[0] = 0;
+  niveau[0] = 0;
+  AT.push_back(0);
+  while(AT.size() != 0)
   {
-    if(tailleNiveaux[i] != 0)
-       cout << "il y a " << tailleNiveaux[i] << " sommets au niveau " << i << endl;
-    else
-       nb++;
+    v = AT.back();
+    AT.erase(AT.begin());
+    
+    for(int i = 0; i < voisins[v].size(); i++)
+    {
+      if(dv[voisins[v][i]] == 0)
+      {
+	dv[voisins[v][i]] = 1;
+	AT.push_back(voisins[v][i]);
+	ordre[voisins[v][i]] = t;
+	t++;
+	pere[voisins[v][i]] = v;
+	niveau[voisins[v][i]] = niveau[v] + 1;
+      }
+    }
   }
-  cout << "il y a " << nb << " sommets qui ne sont pas dans la composante de 0." << endl;
 }
+
