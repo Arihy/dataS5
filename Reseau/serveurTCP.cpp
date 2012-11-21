@@ -7,6 +7,8 @@
 #include "sockdist.h"
 #include <arpa/inet.h>
 #include <string.h>
+#include <pwd.h>
+#include <unistd.h>
 
 using namespace std;
 
@@ -27,10 +29,23 @@ int main(int argc, char** argv, char** env)
 	socklen_t lg = sizeof(sockaddr_in);
 	int descBrCv = accept(desc, (struct sockaddr*)&brCv, &lg);
 
-	char buffer[256];
-	int s = recv(descBrCv, buffer, 256, 0);
-	char msg[] = "Tiens, bonjour...";
-	int s2 = send(desc, msg, strlen(msg), 0);
+	uid_t id;
+	
+	while(true)
+	{
+		int s = recv(descBrCv, &id, sizeof(uid_t), 0);
+		if(s > 0)
+		{
+			cout << "message reçu: " << id << endl;
+			break;
+		}
+	}
 
+	char msg[] = "Tiens, bonjour ";
+	struct passwd* structure = getpwuid(id);
+	strcat(msg, structure->pw_name);
+	int s2 = send(descBrCv, msg, strlen(msg), 0);
+	
+	close(desc);
 	return 0;
 }

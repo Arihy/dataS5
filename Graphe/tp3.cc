@@ -8,6 +8,7 @@ void voisinstrandom(int n, int m, vector<int> voisins[]);
 bool appartient(int x, vector<int> voisins);
 void afficherVoisins(int n, vector<int> voisins[]);
 void parcourslargeur(int n, vector<int> voisins[], int niveau[], int ordre[], int pere[]);
+void parcoursprofondeur(int n, vector<int> voisins[], int debut[], int fin[], int pere[]);
 void affichage(int n, int tab[]);
 int nbOccurence(int n, int niveau[], int x);
 void ecritureniveaux(int n, int niveau[]);
@@ -23,6 +24,8 @@ int main(){
   int pere[n];            // L'arbre en largeur.
   int ordre[n];           // L'ordre de parcours.
   int niveau[n];          // Le niveau du point.
+  int debut[n];
+  int fin[n];
 
   voisinstrandom(n, m, voisins);
   afficherVoisins(n, voisins);
@@ -39,9 +42,18 @@ int main(){
   cout << endl;
 
   ecritureniveaux(n, niveau);
+  cout << endl;
+  cout << "PROFONDEUR" << endl << endl;
+  parcoursprofondeur(n, voisins, debut, fin, pere);
+  cout << "pere : " << endl;
+  affichage(n, pere);
 
+  cout << "debut : " << endl;
+  affichage(n, debut);
 
-
+  cout << "fin : " << endl;
+  affichage(n, fin);
+  cout << endl;
 
   return 0;
 }
@@ -96,6 +108,12 @@ void afficherVoisins(int n, vector<int> voisins[])
 
 void parcourslargeur(int n, vector<int> voisins[], int niveau[], int ordre[], int pere[])
 {
+  for(int i = 0; i < n; i++)
+  {
+    niveau[i] = -1;
+    ordre[i] = -1;
+    pere[i] = -1;
+  }
   int dv[n];
   int t = 2;
   vector<int> AT;
@@ -150,7 +168,7 @@ int nbOccurence(int n, int niveau[], int x)
   int nb = 0;
   for(int i = 0; i < n; i++)
   {
-    if(niveau[i] = x)
+    if(niveau[i] == x)
       nb++;
   }
   return nb;
@@ -160,31 +178,68 @@ void ecritureniveaux(int n, int niveau[])
 {
   int nb = 0;
   int nbNiveaux[n];
-  int tailleNiveaux[n];
   for(int i = 0; i < n; i++)
   {
-    nbNiveaux[i] = i;
-    tailleNiveaux[i] = i;
+    nbNiveaux[i] = 0;
   }
 
   for(int i = 0; i < n; i++)
   {
     nbNiveaux[i] = nbOccurence(n, niveau, i);
   }
-
+  int nbSommetLibre = nbOccurence(n, niveau, -1);
   for(int i = 0; i < n; i++)
   {
-    tailleNiveaux[i] = nbOccurence(n, nbNiveaux, i);
+    if(nbNiveaux[i] != 0)
+       cout << "il y a " << nbNiveaux[i] << " sommet(s) au niveau " << i <<"."<< endl;
   }
+  cout << "il y a " << nbSommetLibre << " sommet(s) qui ne sont pas dans la composante de 0." << endl;
+}
 
-  nb = 0;
-  cout << "il y a " << tailleNiveaux[0] << " sommets au niveau 0" << endl;
-  for(int i = 1; i < n; i++)
+
+void parcoursprofondeur(int n, vector<int> voisins[], int debut[], int fin[], int pere[])
+{
+  for(int i = 0; i < n; i++)
   {
-    if(tailleNiveaux[i] != 0)
-       cout << "il y a " << tailleNiveaux[i] << " sommets au niveau " << i << endl;
-    else
-       nb++;
+    debut[i] = -1;
+    fin[i] = -1;
+    pere[i] = -1;
   }
-  cout << "il y a " << nb << " sommets qui ne sont pas dans la composante de 0." << endl;
+  int dv[n];
+  int t = 2;
+  vector<int> AT;
+  for(int i = 0; i < n; i++)
+  {
+    dv[i] = 0;
+  }
+  int r = 0;
+  int y;
+  dv[r] = 1;
+  pere[r] = r;
+  debut[r] = 1;
+  AT.push_back(r);
+  while(AT.size() != 0)
+  {
+    //r sommet en haut de AT
+    r = AT.back();
+    if(voisins[r].size() == 0)
+    {
+       AT.pop_back();
+       fin[r] = t;
+       t += 1;
+    }
+    else
+    {
+       y = voisins[r].back();
+       voisins[r].pop_back();
+       if(dv[y] == 0)
+       {
+          dv[y] = 1;
+          AT.push_back(y);
+          debut[y] = t;
+          t += 1;
+          pere[y] = r;
+       }
+    }
+  }
 }

@@ -7,7 +7,8 @@
 #include "sockdist.h"
 #include <arpa/inet.h>
 #include <string.h>
-
+#include <unistd.h>
+#include <pwd.h>
 
 using namespace std;
 
@@ -30,10 +31,24 @@ int main(int argc, char** argv, char** env)
 	int resCo = connect(descBrCli, (struct sockaddr*)adrBrPub, lg);
 
 	char buffer[256];
-	char msg[] = "coucou";
+	uid_t id = getuid();
+	char mgs[] = "coucou";
 	if(resCo != -1)
-		int s = send(descBrCli, msg, strlen(msg), 0);
+	{
+		int s = send(descBrCli, &id, sizeof(uid_t), 0);
+		if(s)
+			cout << "message envoyé!" << endl;
+	}
 
-	int s2 = recv(descBrCli, buffer, 256, 0);
+	while(true)
+	{
+		int s2 = recv(descBrCli, buffer, 256, 0);
+		if(s2 > 6)
+		{
+			cout << "message reçu: " << buffer << endl;
+			break;
+		}
+	}
+	close(descBrCli);
 	return 0;
 }
