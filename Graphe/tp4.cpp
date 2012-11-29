@@ -144,6 +144,7 @@ void dijkstra(int n, vector<int> voisin[], int point[][2], int pere[])
   }
   pere[0] = 0;
   d[0] = 0;
+  //afficherVoisins(n, voisin);
   while(traiter(n, traite))
   {
     int dMax = 9999;
@@ -156,10 +157,11 @@ void dijkstra(int n, vector<int> voisin[], int point[][2], int pere[])
       }
     } 
     traite[x] = 1;
-    cout << "traite[" << x << "] = " << traite[x] << endl;
-    for(int i = 0; i < voisin[x].size(); i++)
+    //cout << "traite[" << x << "] = " << traite[x] << endl;
+    for(int j = 0; j < voisin[x].size(); j++)
     {
-      int y = voisin[x][i];
+    	cout << "traite[" << x << "] = " << traite[x] << endl;
+      int y = voisin[x][j];
       if(traite[y] == 0 && (d[y] > (d[x] + longueur(x, y, point))))
       {
         d[y] = d[x] + (int)longueur(x, y, point);
