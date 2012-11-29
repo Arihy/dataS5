@@ -1,5 +1,6 @@
 *.aux
 *.log
+*.metadata
 *.out
 *.nav
 *.toc
