@@ -1,3 +1,8 @@
+# Ignore all dotfiles...
+.*
+# except for .gitignore
+!.gitignore
+
 *.aux
 *.log
 *.metadata
@@ -5,4 +10,12 @@
 *.nav
 *.toc
 *.snm
+*.ps
+*.tar.gz
 *~
+*.class
+Reseau/clientTCP
+Reseau/serveurTCP
+ProjetP4/.metadata
+ProjetP4/puissance4/bin
+Graphe/tp4
