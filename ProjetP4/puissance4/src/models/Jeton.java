@@ -1,5 +1,7 @@
 package models;
 
-public class Jeton {
+import java.awt.Color;
 
+public class Jeton {
+	Color couleur;
 }
