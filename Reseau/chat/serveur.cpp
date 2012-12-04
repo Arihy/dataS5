@@ -1,8 +1,10 @@
 /*serveur
-Le serveur crash quand un client se deconnecte.
+1- Quand une personne quitte le chat, le serveur ne crash plus. Il reste a revoir l'affichage pour envoyer un message de deconnection autre que pseudo : exit.
+2- Travaille sur la fenetre xtrem.
 */
 
 #include <iostream> 
+#include <vector>
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/socket.h>
@@ -46,7 +48,7 @@ int main(int argc, char** argv, char** env)
 		exit(0);
 	}
 
-	int listClient[10];
+	vector<int> listClient;
 
 	//Creationd du CV
 	struct sockaddr_in brCv;
@@ -94,7 +96,7 @@ int main(int argc, char** argv, char** env)
 					close(descBrS);
 					exit(0);
 				}
-				listClient[nbConnecte] = resAccept;
+				listClient.push_back(resAccept);
 				nbConnecte++;
 				cout << "Nb connecte = " << nbConnecte << endl;
 			}
@@ -117,9 +119,14 @@ int main(int argc, char** argv, char** env)
 				//cout << reception << endl;
 				if(resRecv == 0)
 				{
-					listClient[i] = listClient[nbConnecte];
+					listClient.erase(listClient.begin()+i);
 					nbConnecte--;
 					cout << "Nb connecte = " << nbConnecte << endl;
+				}
+				
+				if(strcmp(reception[], "exit"))
+				{
+					
 				}
 
 				//renvoie le message reçu a tout les clients connecté
