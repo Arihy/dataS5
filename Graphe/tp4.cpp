@@ -13,6 +13,8 @@ void AffichageGraphe(int n, int point[][2], vector<int> voisin[]);
 void dijkstra(int n, vector<int> voisin[], int point[][2], int pere[]);
 bool traiter(int n, int traite[]);
 double longueur(int x, int y, int point[][2]);
+int construitarbre(int n, int arbre[][2], int pere[]);
+void AffichageGraphique(int n, int k, int point[][2], int arbre[][2]);
 
 int main()
 {
@@ -37,7 +39,9 @@ int main()
   
   cout << "dijkstra" << endl;
   dijkstra(n, voisin, point, pere);
-  cout << "fin" <<endl;
+  
+  int k = construitarbre(n, arbre, pere);
+  AffichageGraphique(n, k, point, arbre);
   return 0;
 }
 
@@ -147,26 +151,75 @@ void dijkstra(int n, vector<int> voisin[], int point[][2], int pere[])
   //afficherVoisins(n, voisin);
   while(traiter(n, traite))
   {
+    x =  -1;
     int dMax = 9999;
     for(int i = 0; i < n; i++)
     {
-      if((dMax > d[i]) && (traite[i] == 0))
+      if(dMax > d[i])
       {
-        dMax = d[i];
-        x = i;
-      }
-    } 
+        if(traite[i] == 0)
+        {
+          dMax = d[i];
+          x = i;
+        }
+     }
+    }
+    if(x == -1)
+      break;
     traite[x] = 1;
     //cout << "traite[" << x << "] = " << traite[x] << endl;
     for(int j = 0; j < voisin[x].size(); j++)
     {
-    	cout << "traite[" << x << "] = " << traite[x] << endl;
       int y = voisin[x][j];
-      if(traite[y] == 0 && (d[y] > (d[x] + longueur(x, y, point))))
+      if((traite[y] == 0) && (d[y] > (d[x] + longueur(x, y, point))))
       {
         d[y] = d[x] + (int)longueur(x, y, point);
         pere[y] = x;
       }
     }
+  }
+}
+
+
+int construitarbre(int n, int arbre[][2], int pere[])
+{
+  int k = 0;
+  for(int i = 0; i < n-1; i++)
+  {
+    if(pere[i+1] != -1)
+    {
+      arbre[k][0] = pere[i+1];
+      arbre[k][1] = i+1;
+      k++;
+    }
+  }
+  return k;
+}
+
+
+void AffichageGraphique(int n, int k, int point[][2], int arbre[][2])
+{
+  ofstream output;
+  output.open("Arbre.ps",ios::out);
+  output << "%!PS-Adobe-3.0" << endl;
+  output << "%%BoundingBox: 0 0 612 792" << endl;
+  output << endl;  
+  for(int i=0;i<n;i++)
+  {
+    output << point[i][0] << " " << point[i][1] << " 3 0 360 arc" <<endl;
+    output << "0 setgray" <<endl;
+    output << "fill" <<endl;
+    output << "stroke"<<endl;
+    output << endl;
+  }
+  output << endl;
+  int i=0;
+  while(i<k)
+  {
+    output << point[arbre[i][1]][0] << " " << point[arbre[i][1]][1] << " moveto" << endl;
+    output << point[arbre[i][0]][0] << " " << point[arbre[i][0]][1] << " lineto" << endl;
+    output << "stroke" << endl;
+    output << endl;
+    i++;
   }
 }
